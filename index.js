@@ -1,4 +1,4 @@
-import { Client, GatewayIntentBits, PermissionsBitField } from "discord.js";
+import { Client, Events, GatewayIntentBits, PermissionsBitField } from "discord.js";
 import "./keepalive.js";
 
 const client = new Client({
@@ -10,11 +10,11 @@ const client = new Client({
   ],
 });
 
-client.on("ready", () => {
-  console.log("I am ready!");
+client.once(Events.ClientReady, readyClient => {
+  console.log(`Ready! Logged in as ${readyClient.user.tag}`);
 });
 
-client.on("messageCreate", (message) => {
+client.on(Events.MessageCreate, (message) => {
   if (message.content.startsWith("zap ")) {
     const author = message.member;
     const member = message.mentions.members.first();
