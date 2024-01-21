@@ -1,4 +1,5 @@
 import { Client, GatewayIntentBits, PermissionsBitField } from "discord.js";
+import "./keepalive.js";
 
 const client = new Client({
   intents: [
