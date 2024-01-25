@@ -31,13 +31,20 @@ for (const file of commandFiles) {
 
 client.once(Events.ClientReady, (readyClient) => {
   console.log(`Ready! Logged in as ${readyClient.user.tag}`);
+  console.log(`Loaded ${[...readyClient.commands.keys()].join(", ")}`);
 });
 
 client.on(Events.MessageCreate, (message) => {
-  const command = message.content.split(" ")[0];
-  const execute = client.commands.get(command);
-  if (!message.author.bot && execute) {
-    execute(message);
+  if (message.author.bot) {
+    return;
+  }
+  const command = message.content.toLowerCase().split(" ");
+  for (let i = 0; i < command.length; i++) {
+    const execute = message.client.commands.get(command.slice(0, i + 1).join(" "));
+    if (execute) {
+      execute(message);
+      break;
+    }
   }
 });
 
